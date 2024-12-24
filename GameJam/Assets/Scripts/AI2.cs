@@ -9,31 +9,45 @@ public class AI2 : MonoBehaviour
     public GameObject player;
     private float speed = 5f;
     private float stop = 10f;
+    public float health = 100f;
+
+    public GameObject AI;
+    public RangeDetect range;
+
+    public bool hasCollided;
 
 
-    private void Awake()
+    private void Start()
     {
-        Inrange = false;
+        range = AI.GetComponent<RangeDetect>();
+        hasCollided = false;
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Bullet"))
         {
-            Inrange = true;
+            hasCollided = true;
+            //hasCollided = false;
+            health -= 10;
         }
+        if (collision.CompareTag("Sword") && !hasCollided)
+        {
+            hasCollided = true;
+            //hasCollided = false;
+            health -= 40;
+        }
+        hasCollided = false;
     }
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerExit(Collider collision)
     {
-        
+        hasCollided = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (Inrange == true)
+        if (range.Inrange == true)
         {
             if (distanceToPlayer > stop)
             {
@@ -45,6 +59,9 @@ public class AI2 : MonoBehaviour
                 //shoot player here
             }
         }
-
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

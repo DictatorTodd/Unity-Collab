@@ -21,7 +21,8 @@ public class projShooting : MonoBehaviour
 
 
     //Gun stats
-    public float timeBetweenShooting, spread, reloadTime, timeBetweenShots;
+    public float timeBetweenShooting, reloadTime, timeBetweenShots;
+    public float spread = .01f;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
 
